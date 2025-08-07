@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>QuickChat - Create Account</title>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at 20% 20%, #a18cd1 0%, #fbc2eb 100%);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.4;
+      animation: blob 20s infinite;
+      filter: blur(50px);
+    }
+
+    .blob1 {
+      width: 400px;
+      height: 400px;
+      top: -100px;
+      left: -100px;
+      background: #ff9a9e;
+    }
+
+    .blob2 {
+      width: 300px;
+      height: 300px;
+      bottom: -100px;
+      right: -50px;
+      background: #fad0c4;
+    }
+
+    @keyframes blob {
+      0%, 100% { transform: scale(1) translate(0px, 0px); }
+      50% { transform: scale(1.2) translate(50px, 50px); }
+    }
+
+    .container {
+      position: relative;
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 400px;
+      z-index: 2;
+    }
+
+    input {
+      padding: 12px;
+      width: 90%;
+      font-size: 16px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      outline: none;
+    }
+
+    #error-msg {
+      color: red;
+      font-size: 14px;
+      margin-bottom: 10px;
+      height: 18px;
+    }
+
+    button {
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .toggle-text {
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .toggle-text a {
+      color: #4a90e2;
+      cursor: pointer;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+
+  <div class="container">
+    <div class="lottie">
+      <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_ikvz7qhc.json"
+        background="transparent" speed="1" loop autoplay></lottie-player>
+    </div>
+
+    <h2 id="page-title">Create Your QuickChat Account</h2>
+
+    <form action="/create" method="POST" onsubmit="return validateForm()">
+      <input name="username" id="username" placeholder="Enter Your Name" required />
+      <input name="mobile" id="mobile" placeholder="Enter Mobile Number" required />
+      <p id="error-msg"></p>
+      <button type="submit" id="form-button">Create</button>
+    </form>
+
+    <p class="toggle-text" id="toggle-area">
+      Already have an account? <a onclick="switchToLogin()">Click here</a>
+    </p>
+  </div>
+
+  <script>
+    function switchToLogin() {
+      document.getElementById("page-title").textContent = "Welcome Back!";
+      document.getElementById("form-button").textContent = "Continue";
+      document.querySelector("form").setAttribute("action", "/login");
+      document.getElementById("toggle-area").innerHTML = `Don’t have an account? <a onclick="switchToCreate()">Click here</a>`;
+      clearError();
+    }
+
+    function switchToCreate() {
+      document.getElementById("page-title").textContent = "Create Your QuickChat Account";
+      document.getElementById("form-button").textContent = "Join Chat";
+      document.querySelector("form").setAttribute("action", "/create");
+      document.getElementById("toggle-area").innerHTML = `Already have an account? <a onclick="switchToLogin()">Click here</a>`;
+      clearError();
+    }
+
+    function showErrorMessage() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const error = urlParams.get("error");
+      const msg = document.getElementById("error-msg");
+
+      if (error) {
+        let message = "";
+        switch (error) {
+          case "exists":
+            message = "⚠️ Mobile Number Registered. Try different one.";
+            break;
+          case "notfound":
+            message = "❌ Username and Mobile Number are not match.";
+            break;
+          case "empty":
+            message = "⚠️ Please fill in all fields.";
+            break;
+          case "fail":
+            message = "❌ Failed to create account.";
+            break;
+          case "db":
+            message = "❌ Server error. Try again.";
+            break;
+        }
+        msg.textContent = message;
+      }
+    }
+
+    function clearError() {
+      document.getElementById("error-msg").textContent = "";
+    }
+
+    function validateForm() {
+      const mobile = document.getElementById("mobile").value;
+      if (!/^\d{10}$/.test(mobile)) {
+        document.getElementById("error-msg").textContent = "⚠️ Enter valid 10-digit mobile number.";
+        return false;
+      }
+      return true;
+    }
+
+    showErrorMessage();
+  </script>
+</body>
+</html>
