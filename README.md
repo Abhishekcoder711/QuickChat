@@ -6,14 +6,15 @@ QuickChat is a real-time chat application built with Node.js, Express, and Socke
 
 ## 🚀 Features
 
-- 🔐 Create Account / Login System
-- 💬 Real-Time Chat using WebSockets (Socket.io)
-- 🖼️ Background Images & Styling
-- 📝 EJS & HTML based templating
-- 📦 Node.js + Express backend
-- 📂 Organized folder structure
-- 🌐 Service worker & manifest for PWA support
-- 🧠 Clean code & scalable architecture
+- Create Account / Login System
+- Also showing online users
+- Real-Time Chat using WebSockets (Socket.io)
+- Background Images & Styling
+- EJS & HTML based templating
+- Node.js + Express backend
+- Organized folder structure
+- Service worker & manifest for PWA support
+- Clean code & scalable architecture
 
 ---
 
@@ -32,10 +33,10 @@ chat-app/
 │   ├── index.ejs
 │   ├── login.html
 │   └── create.html
-├── .env                     # Environment variables (not uploaded)
+├── .env                     # Environment variables (uploaded in example)
 ├── .gitignore               # Git ignore rules
 ├── LICENSE                  # MIT License
-├── database.js              # MongoDB or database logic
+├── database.js              # MySQL
 ├── server.js                # Main server file
 ├── package.json             # Project metadata & scripts
 └── package-lock.json        # Dependency versions lock
@@ -63,8 +64,10 @@ npm install
 Create a `.env` file in the root and add:
 
 ```env
-PORT=3000
-MONGODB_URI=mongodb://localhost:27017/quickchat
+DB_HOST=localhost
+DB_USER=your_username
+DB_PASSWORD=your_password
+DB_NAME=you_db_name
 SESSION_SECRET=your_secret_key
 ```
 
@@ -75,7 +78,7 @@ node server.js
 ```
 
 Then visit:  
-👉 http://localhost:3000
+👉 local server of your system or browser
 
 ---
 
@@ -84,7 +87,7 @@ Then visit:
 - **Frontend**: HTML, CSS, EJS, JavaScript
 - **Backend**: Node.js, Express
 - **WebSockets**: Socket.io
-- **Database**: MongoDB (or your setup in `database.js`)
+- **Database**: MySQL 
 - **Auth**: Sessions & `.env` secrets
 
 ---
