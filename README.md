@@ -115,9 +115,10 @@ If you'd like to improve QuickChat, fork it and send a PR.
 
 ---
 
-## 🌐 Live Demo
+## 🌐 Live Demo on Render
 
-🚧 Coming soon: Will be deployed on [Render](https://render.com)
+🚧 You can check out the live version of QuickChat here: 
+--https://quickchat-t1wq.onrender.com
 
 ---
 
