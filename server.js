@@ -44,14 +44,20 @@ app.post("/create", (req, res) => {
     if (!username || !mobile) return res.redirect("/create?error=empty");
 
     db.query("SELECT * FROM users WHERE mobile = ?", [mobile], (err, result) => {
-        if (err) return res.redirect("/create?error=db");
+    if (err) {
+      console.error("DB error on SELECT in /create:", err);
+      return res.status(500).send("DB Error: " + err.message);
+    }
 
         if (result.length > 0) {
             return res.redirect("/create?error=exists");
         }
 
         db.query("INSERT INTO users (username, mobile) VALUES (?, ?)", [username, mobile], (err2) => {
-            if (err2) return res.redirect("/create?error=fail");
+      if (err2) {
+        console.error("DB error on INSERT in /create:", err2);
+        return res.status(500).send("DB Error: " + err2.message);
+      }
             req.session.username = username;
             res.redirect("/");
         });
@@ -64,7 +70,10 @@ app.post("/login", (req, res) => {
     if (!username || !mobile) return res.redirect("/create?error=empty");
 
     db.query("SELECT * FROM users WHERE username = ? AND mobile = ?", [username, mobile], (err, result) => {
-        if (err) return res.redirect("/create?error=db");
+    if (err) {
+      console.error("DB error on SELECT in /create:", err);
+      return res.status(500).send("DB Error: " + err.message);
+    }
         if (result.length === 0) return res.redirect("/create?error=notfound");
 
         req.session.username = username;
@@ -124,6 +133,6 @@ io.on("connection", (socket) => {
 });
 
 // ✅ Start Server
-http.listen(5000, () => {
-    console.log("✅ Server running at http://localhost:5000");
+http.listen(43959, () => {
+    console.log("✅ Server running at http://localhost:43959");
 });
