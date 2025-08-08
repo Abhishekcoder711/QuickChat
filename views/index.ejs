@@ -9,7 +9,7 @@
       margin: 0;
       padding: 0;
       height: 100vh;
-      background-image: url("/images/chat-bg.png"); /* your custom background */
+      background-image: url("/images/chat-bg.png");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -21,6 +21,7 @@
 
     .main-wrapper {
       display: flex;
+      flex-direction: row;
       width: 90%;
       max-width: 1200px;
       height: 90vh;
@@ -114,6 +115,57 @@
       border-radius: 8px;
       font-size: 14px;
     }
+
+    /* 📱 Responsive Design */
+    @media (max-width: 992px) {
+      .main-wrapper {
+        flex-direction: column;
+        height: 95vh;
+      }
+
+      .chat-section {
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 15px;
+      }
+
+      .sidebar {
+        padding: 15px;
+        text-align: center;
+      }
+
+      .sidebar h3 {
+        font-size: 18px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .main-wrapper {
+        width: 100%;
+        height: 100vh;
+        border-radius: 0;
+      }
+
+      .chat-header {
+        font-size: 20px;
+        text-align: center;
+      }
+
+      .message {
+        max-width: 90%;
+        font-size: 14px;
+      }
+
+      #input {
+        font-size: 14px;
+        padding: 10px;
+      }
+
+      button {
+        font-size: 16px;
+        padding: 0 12px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -137,14 +189,9 @@
     <!-- 🟢 Right: Sidebar with Online Users -->
     <div class="sidebar">
       <h3>Online Users</h3>
-      <div id="online-users">
-        <!-- Sample static users -->
-
-        <!-- You can dynamically add users here via JS -->
-      </div>
+      <div id="online-users"></div>
     </div>
   </div>
-
 
   <script>
     const username = "<%= username %>";
