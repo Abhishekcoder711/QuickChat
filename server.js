@@ -109,12 +109,12 @@ io.on("connection", (socket) => {
         });
     });
 
-    // ✅ FIXED: Only emit once
-    socket.on("chat message", (data) => {
-        console.log(`[CHAT] ${data.user}: ${data.message}`);
-        socket.to(data.room).emit("chat message", data);  // others
-        socket.emit("chat message", data);                // sender
-    });
+    // // ✅ FIXED: Only emit once
+    // socket.on("chat message", (data) => {
+    //     console.log(`[CHAT] ${data.user}: ${data.message}`);
+    //     socket.to(data.room).emit("chat message", data);  // others
+    //     socket.emit("chat message", data);                // sender
+    // });
 
     // ✅ Handle disconnect
     socket.on("disconnect", () => {
