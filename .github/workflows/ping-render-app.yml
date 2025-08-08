@@ -10,4 +10,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ping QuickChat
-        run: curl -Is https://your-app-name.onrender.com | head -n 1
+        run: curl -Is https://quickchat-t1wq.onrender.com | head -n 1
