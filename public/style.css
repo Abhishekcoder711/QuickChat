@@ -168,3 +168,67 @@ button:hover {
         margin-left: 5px;
     }
 }
+/* Small devices (mobile) */
+@media (max-width: 600px) {
+    .chat-container {
+        height: 100vh;
+        max-width: 100%;
+        border-radius: 0;
+    }
+
+    .chat-header {
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    .msg {
+        max-width: 90%;
+        font-size: 14px;
+    }
+
+    #input {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    button {
+        font-size: 18px;
+        padding: 0 12px;
+    }
+}
+
+/* Very small devices (old smartphones) */
+@media (max-width: 400px) {
+    .msg-text {
+        font-size: 13px;
+    }
+    .msg-user {
+        font-size: 12px;
+    }
+}
+
+
+@media (max-width: 360px) {
+    .chat-container {
+        height: 70vh;
+    }
+
+    .chat-header {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .msg {
+        font-size: 12px;
+    }
+
+    #input {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 0 10px;
+    }
+}
