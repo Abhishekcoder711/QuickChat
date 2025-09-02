@@ -125,5 +125,5 @@ If you'd like to improve QuickChat, fork it and send a PR.
 
 ## 👤 Author
 
-- **Abhishek Mishra**
+- **Abhishek Kumar Mishra**
 - GitHub: [@Abhishekcoder711](https://github.com/Abhishekcoder711)
