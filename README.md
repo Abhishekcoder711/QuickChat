@@ -66,15 +66,12 @@ npm install
 
 ### 3. Configure Environment
 
-Create a `.env` file in the root and add:
+Create a .env file in the root folder and add your MongoDB details and session secret like this:
 
 ```env
-DB_HOST=localhost
-DB_USER=your_username
-DB_PASSWORD=your_password
-DB_NAME=you_db_name
-SESSION_SECRET=your_secret_key
+MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/quickchat?retryWrites=true&w=majority   
 ```
+Make sure to replace the placeholders with your actual MongoDB Atlas connection string and a strong session secret.
 
 ### 4. Start the Server
 
@@ -89,15 +86,15 @@ Then visit:
 
 ## 🧪 Tech Stack
 
-- **Frontend**: HTML, CSS, EJS, JavaScript
-- **Backend**: Node.js, Express
-- **WebSockets**: Socket.io
-- **Database**: MySQL 
-- **Auth**: Sessions & `.env` secrets
+- Frontend: HTML, CSS, EJS templating, JavaScript
+- Backend: Node.js, Express
+- Real-time Communication: Socket.io WebSockets
+- Database: MongoDB (Atlas or local)
+- Authentication: Session-based with express-session and secure .env config
 
 ---
 
-## 📦 Scripts
+## 📦 Useful Scripts
 
 ```bash
 npm start       # Run app
@@ -107,8 +104,7 @@ npm install     # Install dependencies
 
 ## 🙌 Contributing
 
-Pull requests and feedback are welcome!  
-If you'd like to improve QuickChat, fork it and send a PR.
+I welcome pull requests and feedback! Feel free to fork the repo, make improvements, and send a PR back.
 
 ---
 
