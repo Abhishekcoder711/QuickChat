@@ -1,165 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QuickChat - Create Account</title>
-  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-  <link rel="stylesheet" href="/style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: radial-gradient(circle at 20% 20%, #a18cd1 0%, #fbc2eb 100%);
-      overflow: hidden;
-      position: relative;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickChat - Create Account</title>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at 20% 20%, #a18cd1 0%, #fbc2eb 100%);
+            overflow: hidden;
+            position: relative;
+        }
 
-    .blob {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0.4;
-      animation: blob 20s infinite;
-      filter: blur(50px);
-    }
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: blob 20s infinite;
+            filter: blur(50px);
+        }
 
-    .blob1 {
-      width: 400px;
-      height: 400px;
-      top: -100px;
-      left: -100px;
-      background: #ff9a9e;
-    }
+        .blob1 {
+            width: 400px;
+            height: 400px;
+            top: -100px;
+            left: -100px;
+            background: #ff9a9e;
+        }
 
-    .blob2 {
-      width: 300px;
-      height: 300px;
-      bottom: -100px;
-      right: -50px;
-      background: #fad0c4;
-    }
+        .blob2 {
+            width: 300px;
+            height: 300px;
+            bottom: -100px;
+            right: -50px;
+            background: #fad0c4;
+        }
 
-    @keyframes blob {
-      0%, 100% { transform: scale(1) translate(0px, 0px); }
-      50% { transform: scale(1.2) translate(50px, 50px); }
-    }
+        @keyframes blob {
+            0%, 100% { transform: scale(1) translate(0px, 0px); }
+            50% { transform: scale(1.2) translate(50px, 50px); }
+        }
 
-    .container {
-      position: relative;
-      background: white;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-      text-align: center;
-      width: 400px;
-      z-index: 2;
-    }
+        .main-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    input {
-      padding: 12px;
-      width: 90%;
-      font-size: 16px;
-      margin-bottom: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      outline: none;
-    }
+        .container {
+            position: relative;
+            background: white;
+            padding: 30px;
+            margin-left: 100px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 300px;
+            height: 500px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-    #error-msg {
-      color: red;
-      font-size: 14px;
-      margin-bottom: 10px;
-      height: 18px;
-    }
+        .lottie {
+            width: 300px;
+            height: 170px;
+            margin: -20px auto 10px auto;
+        }
 
-    button {
-      background-color: #4a90e2;
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
+        #page-title {
+            font-size: 1.5em;
+            margin: 0 0 10px;
+        }
+        
+        .text-input {
+            padding: 12px;
+            width: 85%;
+            max-width: 350px;
+            font-size: 12px;
+            margin: 0 auto 10px auto;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            outline: none;
+            transition: all 0.3s ease;
+            display: block;
+        }
 
-    .toggle-text {
-      font-size: 14px;
-      margin-top: 10px;
-    }
+        .text-input:hover,
+        .text-input:focus {
+            border-color: #4a90e2;
+            box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+            transform: scale(1.01);
+        }
 
-    .toggle-text a {
-      color: #4a90e2;
-      cursor: pointer;
-      text-decoration: none;
-    }
+        #error-msg {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+            height: 18px;
+        }
 
-    /* 📱 Responsive Design */
-    @media (max-width: 768px) {
-      .container {
-        width: 90%;
-        padding: 20px;
-      }
+        button {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: auto;
+        }
 
-      input {
-        font-size: 14px;
-        padding: 10px;
-      }
+        .toggle-text {
+            font-size: 14px;
+            margin-top: 15px;
+        }
 
-      button {
-        font-size: 14px;
-        padding: 10px 20px;
-      }
-    }
+        .toggle-text a {
+            color: #4a90e2;
+            cursor: pointer;
+            text-decoration: none;
+        }
 
-    @media (max-width: 480px) {
-      body {
-        height: auto;
-        padding: 30px 0;
-      }
+        .logo-left {
+            position: relative;
+            width: 200px;
+            height: auto;
+        }
+        
+        input[type="checkbox"] {
+            margin-right: 8px;
+            transform: scale(1.1);
+            vertical-align: middle;
+        }
 
-      .container {
-        width: 95%;
-        padding: 15px;
-        border-radius: 10px;
-      }
+        /* ✅ ADDED: New styles for QuickChat title and slogan */
+        .logo-text {
+            font-size: 2rem; /* Adjust size as needed */
+            font-weight: bold;
+            color: #3f51b5; /* Darker, vibrant blue */
+            margin: 0;
+            padding: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            letter-spacing: 2px;
+            line-height: 1;
+            background: linear-gradient(45deg, #110a55, #a126ff); /* Gradient for a stylish look */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+        }
 
-      input {
-        width: 100%;
-      }
-    }
-  </style>
+        .slogan {
+            font-size: 1em;
+            color: #262f4e; /* Softer color */
+            margin-top: 5px;
+            margin-bottom: 20px;
+            font-style: italic;
+            letter-spacing: 0.5px;
+        }
+        
+        /* 📱 Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .container {
+                width: 90%;
+                padding: 20px;
+                margin-left: 0;
+            }
+            .logo-left {
+                width: 90%;
+            }
+            /* Adjust font sizes for smaller screens */
+            .logo-text {
+                font-size: 2.5em;
+            }
+            .slogan {
+                font-size: 1em;
+            }
+        }
+    </style>
 </head>
 
 <body>
-  <div class="blob blob1"></div>
-  <div class="blob blob2"></div>
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
 
-  <div class="container">
-    <div class="lottie">
-      <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_ikvz7qhc.json"
-        background="transparent" speed="1" loop autoplay></lottie-player>
+    <div class="main-content">
+        <div style="text-align: center; margin-right: 100px;"> <img src="/images/logo.png" alt="QuickChat Logo" class="logo-left">
+            <h1 class="logo-text">QuickChat</h1> <p class="slogan">Simple Speedy</p> </div>
+
+        <div class="container">
+            <div class="lottie">
+                <lottie-player src="/images/Animation.json"
+                    background="transparent" speed="1" loop autoplay></lottie-player>
+            </div>
+
+            <h2 id="page-title">Create Your Account</h2>
+
+            <form action="/create" method="POST" onsubmit="return validateForm()">
+                <input name="username" id="username" placeholder="Full Name" required class="text-input" />
+                <input name="email" id="email" type="email" placeholder="Email Address" required class="text-input" />
+                <input name="password" id="password" type="password" placeholder="Password" required class="text-input" />
+                
+                <div style="text-align: center; margin: 10px auto; width: 90%; max-width: 350px;">
+                    <input type="checkbox" id="terms" name="terms" required />
+                    <label for="terms" style="font-size: 14px;">I agree to the <a href="terms.html" target="_blank">Terms and Conditions</a></label>
+                </div>
+
+                <p id="error-msg"></p>
+                <button type="submit" id="form-button">Create</button>
+            </form>
+
+            <p class="toggle-text" id="toggle-area">
+                Already have an account? <a onclick="switchToLogin()">Login</a>
+            </p>
+        </div>
     </div>
 
-    <h2 id="page-title">Create Your QuickChat Account</h2>
-
-    <form action="/create" method="POST" onsubmit="return validateForm()">
-      <input name="username" id="username" placeholder="Enter Your Name" required />
-      <input name="mobile" id="mobile" placeholder="Enter Mobile Number" required />
-      <p id="error-msg"></p>
-      <button type="submit" id="form-button">Create</button>
-    </form>
-
-    <p class="toggle-text" id="toggle-area">
-      Already have an account? <a onclick="switchToLogin()">Click here</a>
-    </p>
-  </div>
-
-  <script src="create.js"></script>
+    <script src="create.js"></script>
 </body>
 </html>

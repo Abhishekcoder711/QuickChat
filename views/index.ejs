@@ -1,203 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QuickChat</title>
+  <title>QuickChat - Private Messaging</title>
   <link rel="stylesheet" href="/style.css">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      background-image: url("/images/chat-bg.png");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .main-wrapper {
-      display: flex;
-      flex-direction: row;
-      width: 90%;
-      max-width: 1200px;
-      height: 90vh;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(8px);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-    }
-
-    .chat-section {
-      flex: 2;
-      display: flex;
-      flex-direction: column;
-      padding: 20px;
-      border-right: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .chat-header {
-      color: white;
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .chat-messages {
-      flex: 1;
-      overflow-y: auto;
-      color: white;
-      padding-right: 5px;
-    }
-
-    .message {
-      background-color: rgba(255, 255, 255, 0.08);
-      color: #fff;
-      padding: 10px 15px;
-      margin: 6px 0;
-      border-radius: 16px;
-      max-width: 75%;
-      word-wrap: break-word;
-      backdrop-filter: blur(2px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .chat-form {
-      display: flex;
-      margin-top: 10px;
-    }
-
-    #input {
-      flex: 1;
-      padding: 12px;
-      font-size: 16px;
-      border-radius: 8px 0 0 8px;
-      border: none;
-      outline: none;
-    }
-
-    button {
-      padding: 12px 16px;
-      font-size: 18px;
-      border: none;
-      background-color: #4a90e2;
-      color: white;
-      cursor: pointer;
-      border-radius: 0 8px 8px 0;
-    }
-
-    button:hover {
-      background-color: #357abd;
-    }
-
-    .sidebar {
-      flex: 1;
-      padding: 20px;
-      background: rgba(255, 255, 255, 0.03);
-      color: white;
-    }
-
-    .sidebar h3 {
-      margin-bottom: 10px;
-      font-size: 20px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-      padding-bottom: 5px;
-    }
-
-    .user {
-      padding: 8px;
-      background-color: rgba(255, 255, 255, 0.08);
-      margin-bottom: 6px;
-      border-radius: 8px;
-      font-size: 14px;
-    }
-
-    /* 📱 Responsive Design */
-    @media (max-width: 992px) {
-      .main-wrapper {
-        flex-direction: column;
-        height: 95vh;
-      }
-
-      .chat-section {
-        border-right: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 15px;
-      }
-
-      .sidebar {
-        padding: 15px;
-        text-align: center;
-      }
-
-      .sidebar h3 {
-        font-size: 18px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .main-wrapper {
-        width: 100%;
-        height: 100vh;
-        border-radius: 0;
-      }
-
-      .chat-header {
-        font-size: 20px;
-        text-align: center;
-      }
-
-      .message {
-        max-width: 90%;
-        font-size: 14px;
-      }
-
-      #input {
-        font-size: 14px;
-        padding: 10px;
-      }
-
-      button {
-        font-size: 16px;
-        padding: 0 12px;
-      }
-    }
-  </style>
 </head>
+
 <body>
   <div class="main-wrapper">
-    <!-- 🟣 Left: Chat Section -->
+
+    <!-- 🔵 Left Panel: User List -->
+    <div class="user-list">
+      <h3>All Users</h3>
+      <input type="text" placeholder="Search User" />
+      <div id="online-users">
+        <!-- Users will be injected here dynamically -->
+      </div>
+    </div>
+
+    <!-- 🟣 Center Panel: Chat Window -->
     <div class="chat-section">
-      <header class="chat-header">
-        QuickChat
+      <header class="chat-welcome" id="chat-welcome">
+        <h1>QuickChat</h1>
+        <p class="slogan">Connect instantly. Chat privately.</p>
       </header>
+      <div id="chat-header" class="chat-header">
+        <!-- This will be replaced with selected user's name -->
+      </div>
 
       <main class="chat-messages" id="messages">
-        <!-- Messages will be injected here -->
+        <!-- Messages will appear here -->
       </main>
 
-      <form id="form" class="chat-form">
-        <input id="input" autocomplete="off" placeholder="Type something..." />
+      <form id="form" class="chat-form" style="display: none;">
+        <input id="input" autocomplete="off" placeholder="Send a message..." />
         <button>➤</button>
       </form>
     </div>
 
-    <!-- 🟢 Right: Sidebar with Online Users -->
-    <div class="sidebar">
-      <h3>Online Users</h3>
-      <div id="online-users"></div>
+    <!-- 🟢 Right Panel: Profile Info -->
+    <div class="profile-section" id="profile-box">
+      <h3>Profile</h3>
+      <img src="/images/logo.png" alt="Profile" style="width:100px; border-radius:50%;">
+      <p><strong>
+          <%= username %>
+        </strong></p>
+      <p>Status: Online</p>
+      <button onclick="window.location='/logout'">Logout</button>
     </div>
+
+    <!-- ✅ Hidden Inputs for JS -->
+    <input type="hidden" id="myUserId" value="<%= userId %>">
+    <input type="hidden" id="myUsername" value="<%= username %>">
+
   </div>
 
-  <script>
-    const username = "<%= username %>";
-  </script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/client.js"></script>
 </body>
+
 </html>
