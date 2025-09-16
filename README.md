@@ -22,25 +22,29 @@ QuickChat is a real-time chat application built with Node.js, Express, and Socke
 ## 📁 Folder Structure
 
 ```
-chat-app/
-├── node_modules/            # Dependencies
-├── public/                  # Static files
-│   ├── images/              # Backgrounds, logos
-│   ├── client.js            # Frontend socket logic
-│   ├── style.css            # App styling
-│   ├── manifest.json        # PWA manifest
-│   └── service-worker.js    # Service worker for caching
-├── views/                   # HTML / EJS Templates
-│   ├── index.ejs
-│   ├── login.html
-│   └── create.html
-├── .env                     # Environment variables (uploaded in example)
-├── .gitignore               # Git ignore rules
-├── LICENSE                  # MIT License
-├── database.js              # MySQL
-├── server.js                # Main server file
-├── package.json             # Project metadata & scripts
-└── package-lock.json        # Dependency versions lock
+CHAT-APP/
+├── .github/            # GitHub workflows and configs
+├── models/             # Data models
+│   ├── Message.js      # Message schema
+│   └── User.js         # User schema
+├── node_modules/       # Installed npm packages
+├── public/             # Static files
+│   ├── images/         # Images used in the app
+│   ├── client.js       # Handles chat on client side
+│   ├── create.js       # Client logic for creating chats/users
+│   ├── manifest.json   # PWA settings
+│   ├── style.css       # Styling for the app
+│   └── terms.html      # Terms and conditions page
+├── views/              # Server templates
+│   ├── create.html     # Page for creating new chat/user
+│   └── index.ejs       # Main chat interface
+├── .env                # Environment variables
+├── .gitignore          # Files ignored by Git
+├── package-lock.json   # Dependency lock file
+├── package.json        # Project metadata and dependencies
+├── README.md           # Project overview
+├── render.yaml         # Deployment config
+└── server.js           # Main backend server
 ```
 
 ---
@@ -62,15 +66,12 @@ npm install
 
 ### 3. Configure Environment
 
-Create a `.env` file in the root and add:
+👉 Create a .env file in the root folder and add your MongoDB details like this:
 
 ```env
-DB_HOST=localhost
-DB_USER=your_username
-DB_PASSWORD=your_password
-DB_NAME=you_db_name
-SESSION_SECRET=your_secret_key
+MONGO_URI=YOUR_CONNECTION_STRING OF MONGO_DB
 ```
+👉 Make sure to replace the placeholders with your actual MongoDB Atlas connection string and a strong session secret.
 
 ### 4. Start the Server
 
@@ -85,34 +86,25 @@ Then visit:
 
 ## 🧪 Tech Stack
 
-- **Frontend**: HTML, CSS, EJS, JavaScript
-- **Backend**: Node.js, Express
-- **WebSockets**: Socket.io
-- **Database**: MySQL 
-- **Auth**: Sessions & `.env` secrets
+- Frontend: HTML, CSS, EJS templating, JavaScript
+- Backend: Node.js, Express
+- Real-time Communication: Socket.io WebSockets
+- Database: MongoDB (Atlas or local)
+- Authentication: Session-based with express-session and secure .env config
 
 ---
 
-## 📦 Scripts
+## 📦 Useful Scripts
 
 ```bash
 npm start       # Run app
 npm install     # Install dependencies
 ```
 
----
-
-## 📄 License
-
-This project is licensed under the **MIT License**.  
-Feel free to use, modify, and share responsibly.
-
----
 
 ## 🙌 Contributing
 
-Pull requests and feedback are welcome!  
-If you'd like to improve QuickChat, fork it and send a PR.
+I welcome pull requests and feedback! Feel free to fork the repo, make improvements, and send a PR back.
 
 ---
 
