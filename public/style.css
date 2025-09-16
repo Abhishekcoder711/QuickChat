@@ -119,6 +119,12 @@ body {
   height: 400px; 
 }
 
+.chat-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .msg {
   position: relative;
   max-width: 70%;
@@ -224,6 +230,13 @@ button:hover {
   .main-wrapper {
     flex-direction: column;
   }
+
+  /* Responsive tweaks */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
 
   .user-list, .profile-section {
     display: none;
