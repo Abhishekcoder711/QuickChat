@@ -30,21 +30,21 @@ CHAT-APP/
 ├── node_modules/       # Installed npm packages
 ├── public/             # Static files
 │   ├── images/         # Images used in the app
-│   ├── client.js      # Handles chat on client side
-│   ├── create.js      # Client logic for creating chats/users
-│   ├── manifest.json  # PWA settings
-│   ├── style.css      # Styling for the app
-│   └── terms.html     # Terms and conditions page
+│   ├── client.js       # Handles chat on client side
+│   ├── create.js       # Client logic for creating chats/users
+│   ├── manifest.json   # PWA settings
+│   ├── style.css       # Styling for the app
+│   └── terms.html      # Terms and conditions page
 ├── views/              # Server templates
-│   ├── create.html   # Page for creating new chat/user
-│   └── index.ejs     # Main chat interface
+│   ├── create.html     # Page for creating new chat/user
+│   └── index.ejs       # Main chat interface
 ├── .env                # Environment variables
 ├── .gitignore          # Files ignored by Git
-├── package-lock.json  # Dependency lock file
-├── package.json       # Project metadata and dependencies
-├── README.md          # Project overview
-├── render.yaml        # Deployment config
-└── server.js          # Main backend server
+├── package-lock.json   # Dependency lock file
+├── package.json        # Project metadata and dependencies
+├── README.md           # Project overview
+├── render.yaml         # Deployment config
+└── server.js           # Main backend server
 ```
 
 ---
