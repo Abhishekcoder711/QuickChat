@@ -229,22 +229,64 @@ button:hover {
 @media screen and (max-width: 768px) {
   .main-wrapper {
     flex-direction: column;
+    height: auto;
+    overflow-y: auto;
   }
 
-  /* Responsive tweaks */
-@media (max-width: 768px) {
-  .container {
+  .user-list,
+  .profile-section {
+    flex: none;
+    width: 100%;
     padding: 10px;
-  }
-
-
-  .user-list, .profile-section {
-    display: none;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    display: block;
   }
 
   .chat-section {
-    flex: 1;
+    flex: none;
+    width: 100%;
     padding: 10px;
   }
-}
+
+  .chat-messages {
+    height: 300px;
+    overflow-y: auto;
+  }
+
+  .chat-form {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  #input {
+    width: 100%;
+    border-radius: 8px;
+  }
+
+  button {
+    width: 100%;
+    border-radius: 8px;
+  }
+
+  .chat-welcome h1 {
+    font-size: 32px;
+  }
+
+  .chat-welcome p {
+    font-size: 16px;
+  }
+
+  .msg {
+    max-width: 90%;
+    font-size: 14px;
+  }
+
+  .msg-text {
+    font-size: 14px;
+  }
+
+  .msg-time {
+    font-size: 10px;
+  }
 }
