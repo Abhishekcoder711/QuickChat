@@ -66,12 +66,12 @@ npm install
 
 ### 3. Configure Environment
 
-Create a .env file in the root folder and add your MongoDB details and session secret like this:
+👉 Create a .env file in the root folder and add your MongoDB details and session secret like this:
 
 ```env
 MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/quickchat?retryWrites=true&w=majority   
 ```
-Make sure to replace the placeholders with your actual MongoDB Atlas connection string and a strong session secret.
+👉 Make sure to replace the placeholders with your actual MongoDB Atlas connection string and a strong session secret.
 
 ### 4. Start the Server
 
