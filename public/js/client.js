@@ -42,7 +42,11 @@ fetch("/users")
 
         selectedUserId = user._id;
         currentChatUserId = user._id;
-
+        
+        // Hide welcome screen, show chat
+        document.getElementById("chat-welcome").style.display = "none";
+        document.querySelector(".chat-active").classList.add("show");
+        
         // ✅ Load chat history
         fetch(`/messages/${selectedUserId}`)
           .then(res => {
@@ -91,6 +95,10 @@ fetch("/users")
         `;
 
         document.getElementById("back-to-profile").addEventListener("click", () => {
+          // Show welcome screen, hide chat
+          document.getElementById("chat-welcome").style.display = "block";
+          document.querySelector(".chat-active").classList.remove("show");
+          
           profileBox.innerHTML = defaultProfileHTML;
           document.getElementById("chat-welcome").style.display = "block";
           chatHeader.innerHTML = defaultHeaderHTML;
@@ -163,3 +171,13 @@ socket.on("user-status-change", ({ userId, is_online }) => {
     statusSpan.className = `status ${is_online ? "online" : "offline"}`;
   }
 });
+
+function toggleUserList() {
+  const userList = document.querySelector('.user-list');
+  userList.classList.toggle('show');
+}
+
+function toggleProfile() {
+  const profileBox = document.querySelector('.profile-section');
+  profileBox.classList.toggle('show');
+}

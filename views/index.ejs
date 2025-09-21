@@ -5,7 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QuickChat - Private Messaging</title>
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/css/chat.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
@@ -13,7 +14,7 @@
 
     <!-- 🔵 Left Panel: User List -->
     <div class="user-list">
-      <h3>All Users</h3>
+      <h3>Contacts</h3>
       <input type="text" placeholder="Search User" />
       <div id="online-users">
         <!-- Users will be injected here dynamically -->
@@ -22,22 +23,29 @@
 
     <!-- 🟣 Center Panel: Chat Window -->
     <div class="chat-section">
+      <!-- Welcome Screen -->
       <header class="chat-welcome" id="chat-welcome">
         <h1>QuickChat</h1>
         <p class="slogan">Connect instantly. Chat privately.</p>
       </header>
-      <div id="chat-header" class="chat-header">
-        <!-- This will be replaced with selected user's name -->
+
+      <!-- Active Chat Screen -->
+      <div class="chat-active">
+        <div id="chat-header" class="chat-header">
+          
+          <!-- This will be replaced with selected user's name -->
+        </div>
+
+        <main class="chat-messages" id="messages">
+          <!-- Messages will appear here -->
+        </main>
+
+        <form id="form" class="chat-form">
+          <input id="input" autocomplete="off" placeholder="Send a message..." />
+          <button><i class="fas fa-paper-plane"></i></button>
+        </form>
+        </form>
       </div>
-
-      <main class="chat-messages" id="messages">
-        <!-- Messages will appear here -->
-      </main>
-
-      <form id="form" class="chat-form" style="display: none;">
-        <input id="input" autocomplete="off" placeholder="Send a message..." />
-        <button>➤</button>
-      </form>
     </div>
 
     <!-- 🟢 Right Panel: Profile Info -->
@@ -58,7 +66,7 @@
   </div>
 
   <script src="/socket.io/socket.io.js"></script>
-  <script src="/client.js"></script>
+  <script src="/js/client.js"></script>
 </body>
 
 </html>

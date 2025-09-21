@@ -5,195 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QuickChat - Create Account</title>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/css/auth.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', sans-serif;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: radial-gradient(circle at 20% 20%, #a18cd1 0%, #fbc2eb 100%);
-            overflow: hidden;
-            position: relative;
-        }
-
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.4;
-            animation: blob 20s infinite;
-            filter: blur(50px);
-        }
-
-        .blob1 {
-            width: 400px;
-            height: 400px;
-            top: -100px;
-            left: -100px;
-            background: #ff9a9e;
-        }
-
-        .blob2 {
-            width: 300px;
-            height: 300px;
-            bottom: -100px;
-            right: -50px;
-            background: #fad0c4;
-        }
-
-        @keyframes blob {
-            0%, 100% { transform: scale(1) translate(0px, 0px); }
-            50% { transform: scale(1.2) translate(50px, 50px); }
-        }
-
-        .main-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .container {
-            position: relative;
-            background: white;
-            padding: 30px;
-            margin-left: 100px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            width: 300px;
-            height: 500px;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .lottie {
-            width: 300px;
-            height: 170px;
-            margin: -20px auto 10px auto;
-        }
-
-        #page-title {
-            font-size: 1.5em;
-            margin: 0 0 10px;
-        }
-        
-        .text-input {
-            padding: 12px;
-            width: 85%;
-            max-width: 350px;
-            font-size: 12px;
-            margin: 0 auto 10px auto;
-            margin-bottom: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            outline: none;
-            transition: all 0.3s ease;
-            display: block;
-        }
-
-        .text-input:hover,
-        .text-input:focus {
-            border-color: #4a90e2;
-            box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
-            transform: scale(1.01);
-        }
-
-        #error-msg {
-            color: red;
-            font-size: 14px;
-            margin-bottom: 10px;
-            height: 18px;
-        }
-
-        button {
-            background-color: #4a90e2;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: auto;
-        }
-
-        .toggle-text {
-            font-size: 14px;
-            margin-top: 15px;
-        }
-
-        .toggle-text a {
-            color: #4a90e2;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .logo-left {
-            position: relative;
-            width: 200px;
-            height: auto;
-        }
-        
-        input[type="checkbox"] {
-            margin-right: 8px;
-            transform: scale(1.1);
-            vertical-align: middle;
-        }
-
-        /* ✅ ADDED: New styles for QuickChat title and slogan */
-        .logo-text {
-            font-size: 2rem; /* Adjust size as needed */
-            font-weight: bold;
-            color: #3f51b5; /* Darker, vibrant blue */
-            margin: 0;
-            padding: 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-            letter-spacing: 2px;
-            line-height: 1;
-            background: linear-gradient(45deg, #110a55, #a126ff); /* Gradient for a stylish look */
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .slogan {
-            font-size: 1em;
-            color: #262f4e; /* Softer color */
-            margin-top: 5px;
-            margin-bottom: 20px;
-            font-style: italic;
-            letter-spacing: 0.5px;
-        }
-        
-        /* 📱 Responsive Design */
-        @media (max-width: 768px) {
-            .main-content {
-                flex-direction: column;
-            }
-            .container {
-                width: 90%;
-                padding: 20px;
-                margin-left: 0;
-            }
-            .logo-left {
-                width: 90%;
-            }
-            /* Adjust font sizes for smaller screens */
-            .logo-text {
-                font-size: 2.5em;
-            }
-            .slogan {
-                font-size: 1em;
-            }
-        }
-    </style>
+    
 </head>
 
 <body>
@@ -213,16 +27,16 @@
             <h2 id="page-title">Create Your Account</h2>
 
             <form action="/create" method="POST" onsubmit="return validateForm()">
-                <input name="username" id="username" placeholder="Full Name" required class="text-input" />
-                <input name="email" id="email" type="email" placeholder="Email Address" required class="text-input" />
-                <input name="password" id="password" type="password" placeholder="Password" required class="text-input" />
+                <input name="username" id="username" placeholder="Full Name" class="text-input" />
+                <input name="email" id="email" type="email" placeholder="Email Address" class="text-input" />
+                <input name="password" id="password" type="password" placeholder="Password" class="text-input" />
                 
-                <div style="text-align: center; margin: 10px auto; width: 90%; max-width: 350px;">
-                    <input type="checkbox" id="terms" name="terms" required />
+                <div class="terms-container" style="text-align: center; margin: 10px auto; width: 90%; max-width: 350px;">
+                    <input type="checkbox" id="terms" name="terms" />
                     <label for="terms" style="font-size: 14px;">I agree to the <a href="terms.html" target="_blank">Terms and Conditions</a></label>
                 </div>
 
-                <p id="error-msg"></p>
+                <p id="error-msg" style="color: red; display: none;"></p>
                 <button type="submit" id="form-button">Create</button>
             </form>
 
@@ -232,6 +46,6 @@
         </div>
     </div>
 
-    <script src="create.js"></script>
+    <script src="/js/create.js"></script>
 </body>
 </html>

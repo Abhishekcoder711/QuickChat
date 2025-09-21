@@ -1,0 +1,216 @@
+@import url('shared.css');
+
+/* 🔷 Auth Page Layout */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at 20% 20%, #a18cd1 0%, #fbc2eb 100%);
+  overflow: hidden;
+  position: relative;
+}
+
+/* 🔮 Background Blobs */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: blob 20s infinite;
+  filter: blur(50px);
+}
+
+.blob1 {
+  width: 400px;
+  height: 400px;
+  top: -100px;
+  left: -100px;
+  background: #ff9a9e;
+}
+
+.blob2 {
+  width: 300px;
+  height: 300px;
+  bottom: -100px;
+  right: -50px;
+  background: #fad0c4;
+}
+
+@keyframes blob {
+  0%, 100% { transform: scale(1) translate(0px, 0px); }
+  50% { transform: scale(1.2) translate(50px, 50px); }
+}
+
+/* 🧱 Main Content */
+.main-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+/* 🔵 Branding Section */
+.branding {
+  text-align: center;
+  margin-right: 100px;
+}
+
+.logo-left {
+  width: 200px;
+  height: auto;
+}
+
+.logo-text {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  letter-spacing: 2px;
+  line-height: 1;
+  background: linear-gradient(45deg, #110a55, #a126ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.slogan {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: #262f4e;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  font-style: italic;
+  letter-spacing: 0.5px;
+}
+
+/* 🟣 Form Container */
+.container {
+  position: relative;
+  background: white;
+  padding: 30px;
+  margin-left: 100px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 300px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+.lottie {
+  width: 300px;
+  height: 170px;
+  margin: -20px auto 10px auto;
+}
+
+#page-title {
+  font-size: 1.5em;
+  margin: 0 0 10px;
+}
+
+/* 🧾 Form Inputs */
+.text-input {
+  padding: 12px;
+  width: 85%;
+  max-width: 350px;
+  font-size: clamp(12px, 1.5vw, 14px);
+  margin: 0 auto 10px auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: all 0.3s ease;
+  display: block;
+}
+
+.text-input:hover,
+.text-input:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+  transform: scale(1.01);
+}
+
+/* ✅ Error Message */
+#error-msg {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+  height: 18px;
+}
+
+/* ✅ Terms Checkbox */
+.terms-container {
+  text-align: center;
+  margin: 10px auto;
+  width: 90%;
+  max-width: 350px;
+  font-size: 14px;
+}
+
+input[type="checkbox"] {
+  margin-right: 8px;
+  transform: scale(1.1);
+  vertical-align: middle;
+}
+
+/* ✅ Submit Button */
+button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: auto;
+}
+
+.toggle-text {
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+.toggle-text a {
+  color: #4a90e2;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* 📱 Responsive Layout */
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .branding {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+  .container {
+    width: 90%;
+    margin-left: 0;
+    padding: 20px;
+    height: auto;
+  }
+
+  .logo-left {
+    width: 80%;
+  }
+
+  .logo-text {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+  }
+
+  .slogan {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+  }
+}
