@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://quickchat-t1wq.onrender.com/sitemap.xml
