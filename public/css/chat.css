@@ -208,6 +208,23 @@ background-image: url('../images/image.png'); /* WhatsApp-like chat background *
   position: relative; /* Add position relative to place the button inside */
 }
 
+.upload-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:38px;
+  height:38px;
+  background:#25d366;
+  color:white;
+  border-radius:50%;
+  cursor:pointer;
+  font-size:16px;
+}
+
+.upload-btn:hover{
+  background:#1ebe5d;
+}
+
 .chat-form input {
   flex: 1;
   padding: 9px 12px;
@@ -279,3 +296,6 @@ background-image: url('../images/image.png'); /* WhatsApp-like chat background *
   display: block;
 }
 
+#mediaInput{
+  display:none;
+}

@@ -69,12 +69,48 @@ fetch("/users")
 
               const seenBadge = data.is_read ? `<span class="seen-badge">✔ Seen</span>` : "";
 
+              // msg.innerHTML = `
+              //   <div class="msg-content">
+              //     <div class="msg-text">${data.message_content}</div>
+              //     <div class="msg-time">${new Date(data.timestamp).toLocaleTimeString()} ${seenBadge}</div>
+              //   </div>
+              // `;
+
+// yaha se delete karna hai and upper wala code uncomment karna hai
+
+              let content = data.message_content;
+
+              if (content.startsWith("/uploads/")) {
+
+                if (content.match(/\.(jpg|jpeg|png|gif)$/i)) {
+                  content = `<img src="${content}" style="max-width:200px;">`;
+                }
+
+                else if (content.match(/\.(mp4|webm|ogg)$/i)) {
+                  content = `<video controls style="max-width:200px;">
+                              <source src="${content}">
+                            </video>`;
+                }
+
+                else if (content.match(/\.(mp3|wav)$/i)) {
+                  content = `<audio controls>
+                              <source src="${content}">
+                            </audio>`;
+                }
+
+                else {
+                  content = `<a href="${content}" target="_blank">Download File</a>`;
+                }
+
+              }
+
               msg.innerHTML = `
                 <div class="msg-content">
-                  <div class="msg-text">${data.message_content}</div>
+                  <div class="msg-text">${content}</div>
                   <div class="msg-time">${new Date(data.timestamp).toLocaleTimeString()} ${seenBadge}</div>
                 </div>
               `;
+// yaha takk delete karna hai
 
               messages.appendChild(msg);
             });
@@ -137,12 +173,50 @@ socket.on("private-message", (data) => {
 
   const seenBadge = data.is_read ? `<span class="seen-badge">✔ Seen</span>` : "";
 
+  // msg.innerHTML = `
+  //   <div class="msg-content">
+  //     <div class="msg-text">${data.message}</div>
+  //     <div class="msg-time">${data.time} ${seenBadge}</div>
+  //   </div>
+  // `;
+
+// yaha se delete karna hai and upper wala code uncomment karna hai
+
+  let content = data.message;
+
+  if (content.startsWith("/uploads/")) {
+
+    if (content.match(/\.(jpg|jpeg|png|gif)$/i)) {
+      content = `<img src="${content}" style="max-width:200px;">`;
+    }
+
+    else if (content.match(/\.(mp4|webm|ogg)$/i)) {
+      content = `<video controls style="max-width:200px;">
+                  <source src="${content}">
+                </video>`;
+    }
+
+    else if (content.match(/\.(mp3|wav)$/i)) {
+      content = `<audio controls>
+                  <source src="${content}">
+                </audio>`;
+    }
+
+    else {
+      content = `<a href="${content}" target="_blank">Download File</a>`;
+    }
+
+  }
+
+
   msg.innerHTML = `
     <div class="msg-content">
-      <div class="msg-text">${data.message}</div>
+      <div class="msg-text">${content}</div>
       <div class="msg-time">${data.time} ${seenBadge}</div>
     </div>
   `;
+// yaha takk delete karna hai
+
 
   messages.appendChild(msg);
   messages.scrollTop = messages.scrollHeight;

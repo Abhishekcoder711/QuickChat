@@ -7,6 +7,24 @@ const path = require("path");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
+// yaha se delete karna hai
+
+// Multer for file uploads 
+const multer = require("multer");
+
+// Media storage setup
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname);
+  }
+});
+
+const upload = multer({ storage: storage });
+// yaha takk delete karna hai
+
 const mongoose = require("mongoose");
 const User = require("./models/User");
 const Message = require("./models/Message");
@@ -31,6 +49,10 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
+// yaha se delete karna hai
+app.use("/uploads", express.static("uploads"));
+// yaha takk delete karna hai
 
 app.use(session({
   secret: process.env.SESSION_SECRET || "quickchat_secret",
@@ -149,6 +171,24 @@ app.get("/messages/:otherUserId", async (req, res) => {
     sender_name: msg.sender_id.username
   })));
 });
+
+// yaha se delete karna hai
+
+// Media upload route
+app.post("/upload", upload.single("media"), async (req, res) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  if (!req.file) {
+    return res.status(400).json({ error: "No file uploaded" });
+  }
+
+  res.json({
+    filePath: "/uploads/" + req.file.filename
+  });
+});
+// yaha takk delete karna hai
 
 io.on("connection", (socket) => {
   socket.on("register-user", async ({ userId, username }) => {
