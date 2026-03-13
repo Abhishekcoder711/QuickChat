@@ -299,3 +299,16 @@ background-image: url('../images/image.png'); /* WhatsApp-like chat background *
 #mediaInput{
   display:none;
 }
+
+.site-footer{
+  text-align:center;
+  padding:10px;
+  background:#f2f2f2;
+  font-size:14px;
+}
+
+.site-footer a{
+  text-decoration:none;
+  margin:0 6px;
+  color:#333;
+}
