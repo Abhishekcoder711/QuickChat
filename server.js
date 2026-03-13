@@ -61,7 +61,7 @@ app.use(session({
 }));
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "views", "create.html"));
+  res.redirect("/create");
 });
 
 app.get("/create", (req, res) => {
@@ -170,18 +170,6 @@ app.get("/messages/:otherUserId", async (req, res) => {
     ...msg.toObject(),
     sender_name: msg.sender_id.username
   })));
-});
-
-app.get('/about', (req, res) => {
-    res.sendFile(__dirname + '/views/about.html');
-});
-
-app.get('/privacy', (req, res) => {
-    res.sendFile(__dirname + '/views/privacy.html');
-});
-
-app.get('/contact', (req, res) => {
-    res.sendFile(__dirname + '/views/contact.html');
 });
 
 // yaha se delete karna hai
