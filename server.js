@@ -61,7 +61,7 @@ app.use(session({
 }));
 
 app.get("/", (req, res) => {
-    res.render("index");
+    res.sendFile(path.join(__dirname, "views", "create.html"));
 });
 
 app.get("/create", (req, res) => {
