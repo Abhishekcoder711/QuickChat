@@ -108,7 +108,7 @@ I welcome pull requests and feedback! Feel free to fork the repo, make improveme
 
 ---
 
-## 🌐 Live Demo on Render
+## 🌐 Live Demo
 
 🚧 You can check out the live version of QuickChat here: 
 --https://quickchat-t1wq.onrender.com
