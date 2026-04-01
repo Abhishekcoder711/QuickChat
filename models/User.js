@@ -5,7 +5,18 @@ const userSchema = new mongoose.Schema({
   email:    { type: String, required: true, unique: true },
   password: { type: String, required: true },
   is_online:{ type: Boolean, default: false },
-  created_at: { type: Date, default: Date.now }
+  created_at: { type: Date, default: Date.now },
+
+    // ✅ ADD THIS
+  profile_image: { 
+    type: String, 
+    default: "/images/default.png" 
+  },
+  bio: { 
+    type: String, 
+    default: "" 
+  }
 });
+
 
 module.exports = mongoose.model("User", userSchema);

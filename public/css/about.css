@@ -1,0 +1,46 @@
+.about-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at 20% 20%, #a18cd1, #fbc2eb);
+}
+
+/* Glass Card */
+.about-card {
+  max-width: 700px;
+  padding: 30px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  text-align: left;
+  animation: fadeIn 1s ease;
+}
+
+.about-card h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  background: linear-gradient(45deg, #110a55, #a126ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.about-card p {
+  line-height: 1.6;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

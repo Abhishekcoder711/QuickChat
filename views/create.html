@@ -57,7 +57,28 @@
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <link rel="stylesheet" href="/css/auth.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <script>
+        window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '1289915986391772',
+            cookie     : true,
+            xfbml      : true,
+            version    : 'v19.0'
+           });
+        };
+
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
 </head>
 
 <body>
@@ -65,37 +86,100 @@
     <div class="blob blob2"></div>
 
     <div class="main-content">
-        <div style="text-align: center; margin-right: 100px;"> <img src="/images/logo.png" alt="QuickChat Logo" class="logo-left">
-            <h1 class="logo-text">QuickChat</h1> <p class="slogan">Simple Speedy</p> </div>
 
-        <div class="container">
-            <div class="lottie">
-                <lottie-player src="/images/Animation.json"
-                    background="transparent" speed="1" loop autoplay></lottie-player>
-            </div>
+        <!-- 🔵 Branding -->
+        <div style="text-align: center; margin-right: 100px;">
+            <img src="/images/logo.png" alt="QuickChat Logo" class="logo-left">
+            <h1 class="logo-text">QuickChat</h1>
+            <p class="slogan">Simple Speedy</p>
+        </div>
 
-            <h2 id="page-title">Create Your Account</h2>
+        <!-- 🔄 Flip Card -->
+        <div class="card-container">
+            <div class="card" id="card">
 
-            <form action="/create" method="POST" onsubmit="return validateForm()">
-                <input name="username" id="username" placeholder="Full Name" class="text-input" />
-                <input name="email" id="email" type="email" placeholder="Email Address" class="text-input" />
-                <input name="password" id="password" type="password" placeholder="Password" class="text-input" />
-                
-                <div class="terms-container" style="text-align: center; margin: 10px auto; width: 90%; max-width: 350px;">
-                    <input type="checkbox" id="terms" name="terms" />
-                    <label for="terms" style="font-size: 14px;">I agree to the <a href="terms.html" target="_blank">Terms and Conditions</a></label>
+                <!-- FRONT = CREATE -->
+                <div class="side front">
+                    <div class="lottie">
+                        <lottie-player src="/images/Animation.json"
+                            background="transparent" speed="1" loop autoplay>
+                        </lottie-player>
+                    </div>
+
+                    <h2>Get Instant Access</h2>
+
+                    <form action="/create" method="POST" onsubmit="return validateForm(event)">
+                       <input name="username" id="username" placeholder="Full Name" class="text-input" />
+                       <input name="email" type="email" placeholder="Email Address" class="text-input" />
+                       <input name="password" type="password" placeholder="Password" class="text-input" />
+
+                       <p class="error-msg" style="color: red; display: none;"></p>
+                       <button type="submit">Create</button>
+                    </form>
+
+                    <p class="toggle-text">
+                        Already have an account? <a onclick="flip()">Login</a>
+                    </p>
                 </div>
 
-                <p id="error-msg" style="color: red; display: none;"></p>
-                <button type="submit" id="form-button">Create</button>
-            </form>
+                <!-- BACK = LOGIN -->
+                <div class="side back">
+                    <div class="lottie">
+                        <lottie-player src="/images/Animation.json"
+                            background="transparent" speed="1" loop autoplay>
+                        </lottie-player>
+                    </div>
 
-            <p class="toggle-text" id="toggle-area">
-                Already have an account? <a onclick="switchToLogin()">Login</a>
-            </p>
+                    <h2>Welcome Back!</h2>
+
+                    <form action="/login" method="POST" onsubmit="return validateForm(event)">
+                        <input name="email" type="email" placeholder="Email Address" class="text-input" />
+                        <input name="password" type="password" placeholder="Password" class="text-input" />
+
+                        <p class="error-msg" style="color: red; display: none;"></p>
+                        <button type="submit">Login</button>
+                    </form>
+                    
+                    <div class="social-divider">
+                      <span>Or continue with</span>
+                    </div>
+
+                    <div class="social-login">
+
+                        <button class="social-btn" onclick="triggerGoogleLogin()">
+                            <i class="fab fa-google"></i>
+                        </button>
+                        
+                        <button class="social-btn" onclick="loginWithFacebook()">
+                            <i class="fab fa-facebook"></i>
+                        </button>
+
+                    </div>
+
+                    <p class="toggle-text">
+                        Don't have an account? <a onclick="flip()">SignUp</a>
+                    </p>
+                </div>
+
+            </div>
         </div>
+
+    </div>
+
+    <div class="footer-links">
+        <a href="/privacy.html">Privacy Policy</a>
+        <span>|</span>
+        <a href="/terms.html">Terms & Conditions</a>
+        <span>|</span>
+        <a href="/about.html">About</a>
+        <span>|</span>
+        <a href="/contact.html">Contact</a>
+    </div>
+
+    <div id="g_id_onload"
+        data-client_id="215720195583-mdhlhcp1nlskktf6i564mim7neleg2u1.apps.googleusercontent.com"
+        data-callback="handleGoogleLogin">
     </div>
 
     <script src="/js/create.js"></script>
 </body>
-</html>

@@ -5,9 +5,12 @@ const io = require("socket.io")(http);
 const session = require("express-session");
 const path = require("path");
 const bcrypt = require("bcrypt");
+const fs = require("fs");
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-// yaha se delete karna hai
+
+
 
 // Multer for file uploads 
 const multer = require("multer");
@@ -23,7 +26,18 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-// yaha takk delete karna hai
+
+
+const storage2 = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, "profile-" + Date.now() + "-" + file.originalname);
+  }
+});
+
+const uploadProfile = multer({ storage: storage2 });
 
 const mongoose = require("mongoose");
 const User = require("./models/User");
@@ -48,11 +62,11 @@ const onlineUsers = new Map();
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static("public"));
 
-// yaha se delete karna hai
 app.use("/uploads", express.static("uploads"));
-// yaha takk delete karna hai
+
 
 app.use(session({
   secret: process.env.SESSION_SECRET || "quickchat_secret",
@@ -60,8 +74,52 @@ app.use(session({
   saveUninitialized: true
 }));
 
+app.post("/delete-profile", async (req, res) => {
+  try {
+    if (!req.session.userId) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    await User.findByIdAndUpdate(req.session.userId, {
+      bio: "",
+      profile_image: "/images/default.png"
+    });
+
+    res.json({ success: true });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// ✅ PASTE HERE
+app.post("/update-profile", uploadProfile.single("profile"), async (req, res) => {
+  try {
+    if (!req.session.userId) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const updateData = {
+      bio: req.body.bio
+    };
+
+    if (req.file) {
+      updateData.profile_image = "/uploads/" + req.file.filename;
+    }
+
+    await User.findByIdAndUpdate(req.session.userId, updateData);
+
+    res.json({ success: true });
+
+  } catch (err) {
+    console.error("❌ ERROR:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 app.get("/", (req, res) => {
-  res.redirect("/create");
+  res.sendFile(path.join(__dirname, "views", "home.html"));
 });
 
 app.get("/create", (req, res) => {
@@ -69,8 +127,8 @@ app.get("/create", (req, res) => {
 });
 
 app.post("/create", async (req, res) => {
-  const { username, email, password, terms } = req.body;
-  if (!username || !email || !password || !terms) {
+  const { username, email, password } = req.body;
+  if (!username || !email || !password) {
     return res.redirect("/create?error=empty");
   }
 
@@ -86,7 +144,7 @@ app.post("/create", async (req, res) => {
   if (existingUser) return res.redirect("/create?error=exists");
 
   const hash = await bcrypt.hash(password, 10);
-  const newUser = await User.create({ username, email, password: hash, is_online: true });
+  const newUser = await User.create({ username, email, password: hash, is_online: true, profile_image: "/images/default.png", bio: "" });
 
   req.session.userId = newUser._id;
   req.session.username = username;
@@ -115,6 +173,99 @@ app.post("/login", async (req, res) => {
   res.redirect("/chat");
 });
 
+// GOOGLE LOGIN
+app.post("/auth/google", async (req, res) => {
+  try {
+    const { credential } = req.body;
+
+    // ✅ Decode Google token
+    const decoded = jwt.decode(credential);
+
+    const email = decoded.email;
+    const username = decoded.name;
+
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      user = await User.create({
+        username,
+        email,
+        password: "google_auth",
+        is_online: true,
+        profile_image: "/images/default.png",
+        bio: ""
+      });
+    } else {
+      user.is_online = true;
+      await user.save();
+    }
+
+    req.session.userId = user._id;
+    req.session.username = user.username;
+
+    res.json({ success: true });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Google login failed" });
+  }
+});
+
+// FACEBOOK LOGIN
+app.post("/auth/facebook", async (req, res) => {
+  const { email, name } = req.body;
+
+  try {
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      user = await User.create({
+        username: name,
+        email: email,
+        password: "facebook_auth",
+        is_online: true,
+        profile_image: "/images/default.png",
+        bio: ""
+      });
+    } else {
+      user.is_online = true;
+      await user.save();
+    }
+
+    req.session.userId = user._id;
+    req.session.username = user.username;
+
+    res.json({ success: true });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+app.post("/contact", (req, res) => {
+  const { name, email, message } = req.body;
+
+  const data = `
+-------------------
+Name: ${name}
+Email: ${email}
+Message: ${message}
+Time: ${new Date().toLocaleString()}
+-------------------
+`;
+
+  const filePath = path.join(__dirname, "contact_messages.txt");
+
+  fs.appendFile(filePath, data, (err) => {
+    if (err) {
+      return res.send("❌ Error saving message");
+    }
+
+    res.send("✅ Message saved successfully");
+  });
+});
+
 app.get("/chat", (req, res) => {
   if (!req.session.userId || !req.session.username) {
     return res.redirect("/create?page=login");
@@ -140,8 +291,19 @@ app.get("/users", async (req, res) => {
   const myId = req.session.userId;
   if (!myId) return res.status(401).json({ error: "Unauthorized" });
 
-  const users = await User.find({ _id: { $ne: myId } }, "username is_online");
+  const users = await User.find({ _id: { $ne: myId } }, "username is_online profile_image bio email");
   res.json(users);
+});
+
+app.get("/user/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+      .select("username is_online profile_image bio email");
+
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
+  }
 });
 
 app.get("/messages/:otherUserId", async (req, res) => {
@@ -158,7 +320,9 @@ app.get("/messages/:otherUserId", async (req, res) => {
       { sender_id: myId, receiver_id: otherId },
       { sender_id: otherId, receiver_id: myId }
     ]
-  }).sort({ timestamp: 1 }).populate("sender_id", "username");
+  })
+  .sort({ timestamp: 1 })
+  .populate("sender_id", "username");
 
   await Message.updateMany({
     receiver_id: myId,
@@ -172,7 +336,63 @@ app.get("/messages/:otherUserId", async (req, res) => {
   })));
 });
 
-// yaha se delete karna hai
+app.get("/summarize-chat/:userId", async (req, res) => {
+  try {
+    if (!req.session.userId) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const myId = toObjectId(req.session.userId);
+    const otherId = toObjectId(req.params.userId);
+
+    const messages = await Message.find({
+      $or: [
+        { sender_id: myId, receiver_id: otherId },
+        { sender_id: otherId, receiver_id: myId }
+      ]
+    })
+    .sort({ timestamp: 1 })
+    .populate("sender_id", "username");
+
+    let texts = messages
+      .map(m => {
+        if (!m.message_content) return null;
+
+        // ignore media
+        if (m.message_content.includes("/uploads/")) return null;
+
+        const name = m.sender_id?.username || "User";
+        return name + ": " + m.message_content;
+      })
+      .filter(Boolean)
+      .filter(msg => {
+        if (!msg) return false;
+
+        // remove media
+        if (msg.includes("/uploads/")) return false;
+
+        // remove small msgs
+        if (msg.length < 8) return false;
+
+        // remove emoji
+        if (/[\p{Emoji}]/u.test(msg)) return false;
+
+        // remove common words
+        const low = msg.toLowerCase();
+        if (["hi","hii","hello","ok","hlo"].includes(low)) return false;
+
+        return true;
+      });
+
+    let summary = texts.slice(-5);
+
+    res.json({ summary });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
 
 // Media upload route
 app.post("/upload", upload.single("media"), async (req, res) => {

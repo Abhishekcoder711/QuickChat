@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact - QuickChat</title>
+  <link rel="stylesheet" href="/css/contact.css">
+</head>
+
+<body>
+
+<div class="contact-container">
+
+  <!-- LEFT: FORM -->
+  <div class="contact-form">
+    <h2>Contact Us</h2>
+
+    <!-- ❌ action हटाया -->
+    <form id="contactForm">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+
+    <!-- ✅ message yaha dikhega -->
+    <p id="successMsg" style="margin-top:10px; font-weight:bold;"></p>
+  </div>
+
+  <!-- RIGHT: INFO -->
+  <div class="contact-info">
+    <h2>QuickChat Info</h2>
+
+    <p><strong>Email:</strong> support@quickchat.com</p>
+    <p><strong>Phone:</strong> +91 XXXXX XXXXX</p>
+    <p><strong>Location:</strong> India</p>
+
+    <p>We usually respond within 24 hours.</p>
+  </div>
+
+</div>
+
+<!-- ✅ JS connect -->
+<script src="/js/contact.js"></script>
+
+</body>
+</html>

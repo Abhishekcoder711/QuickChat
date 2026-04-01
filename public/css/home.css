@@ -1,0 +1,274 @@
+@import url('shared.css');
+
+/* 🔷 BODY (same as create page) */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 🔮 BLOBS (same as create) */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: blob 20s infinite;
+  filter: blur(50px);
+}
+
+.blob1 {
+  width: 400px;
+  height: 400px;
+  top: -100px;
+  left: -100px;
+  background: #ff9a9e;
+}
+
+.blob2 {
+  width: 300px;
+  height: 300px;
+  bottom: -100px;
+  right: -50px;
+  background: #fad0c4;
+}
+
+@keyframes blob {
+  0%, 100% { transform: scale(1) translate(0px, 0px); }
+  50% { transform: scale(1.2) translate(50px, 50px); }
+}
+
+/* 🔷 MAIN WRAPPER (FIXED CENTER) */
+.home-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+/* 🔹 LEFT SIDE */
+.left-section {
+  width: 60%;
+  height: 100vh;
+
+  background: radial-gradient(circle at 20% 20%, #a18cd1 0%, #fbc2eb 100%);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 80px;
+
+  position: relative;
+  z-index: 2;
+}
+
+/* Branding */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.small-logo {
+  width: 60px;
+}
+
+.brand h2 {
+  font-size: 4rem;
+  margin: 0;
+  color: #420351;
+}
+
+/* Tagline */
+.tagline {
+  margin: 10px 0 25px;
+  font-size: 1.2rem;
+  color: #333;
+  font-style: italic;
+}
+
+/* Features */
+.features p {
+  margin: 8px 0;
+  font-size: 20px;
+}
+
+/* Links */
+.home-buttons a {
+  display: block;
+  margin-top: 15px;
+  font-size: 22px;
+  text-decoration: none;
+  color: #1a1a1a;
+  transition: 0.3s;
+}
+
+.home-buttons a:hover {
+  text-decoration: underline;
+  color: #4a00e0;
+}
+
+/* 🔹 RIGHT SIDE */
+.right-section {
+  width: 60%;
+  height: 100vh;
+
+  background: url('/images/chat-preview.png') no-repeat center;
+  background-size: cover;
+
+  position: relative;
+}
+
+
+/* 🌫️ CENTER BLUR (PERFECT) */
+.right-section::before {
+  content: "";
+  position: absolute;
+  left: -200px;
+  top: 0;
+  width: 400px;
+  height: 100%;
+
+  background: linear-gradient(#c28bfc, rgb(221, 184, 255) 40%, hsl(277, 80%, 90%) 80%);
+  filter: blur(100px);
+}
+
+.left-section::before {
+  content: "";
+  position: absolute;
+  right: -300px;
+  top: 0;
+  width: 400px;
+  height: 100%;
+
+  background: linear-gradient(#c28bfc, #c07ffd 40%, hsl(277, 80%, 90%) 80%);
+  filter: blur(100px);
+}
+
+.footer-links {
+  position: fixed;
+  bottom: 15px;
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #333;
+  margin: 0 5px;
+  transition: 0.3s;
+}
+
+.footer-links a:hover {
+  color: #4a90e2;
+  text-decoration: underline;
+}
+
+/* 📱 Mobile (up to 768px) */
+@media (max-width: 768px) {
+
+  body {
+    height: auto;
+    overflow: auto;
+  }
+
+  .home-wrapper {
+    flex-direction: column;
+    height: auto;
+  }
+
+  /* LEFT full */
+  .left-section {
+    width: 100%;
+    height: auto;
+    padding: 40px 20px;
+    text-align: center;
+    align-items: center;
+  }
+
+  /* RIGHT image below */
+  .right-section {
+    width: 100%;
+    height: 300px;
+    background-position: center;
+  }
+
+  /* blur remove for mobile */
+  .right-section::before,
+  .left-section::before {
+    display: none;
+  }
+
+  .brand {
+    justify-content: center;
+  }
+
+  .home-buttons a {
+    font-size: 16px;
+  }
+}
+
+
+/* 📲 Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+
+  .left-section {
+    padding-left: 40px;
+  }
+
+  .brand h1 {
+    font-size: 1.8rem;
+  }
+
+  .tagline {
+    font-size: 1.1rem;
+  }
+
+  .features p {
+    font-size: 14px;
+  }
+
+  .home-buttons a {
+    font-size: 16px;
+  }
+
+  .right-section {
+    background-size: cover;
+  }
+
+  .right-section::before {
+    left: -150px;
+    width: 250px;
+    filter: blur(80px);
+  }
+
+  .left-section::before {
+    right: -150px;
+    width: 250px;
+    filter: blur(80px);
+  }
+}
+
+
+/* 💻 Small Laptop (1024px - 1280px) */
+@media (max-width: 1280px) {
+
+  .left-section {
+    padding-left: 60px;
+  }
+
+  .brand h1 {
+    font-size: 1.9rem;
+  }
+
+  .right-section::before {
+    left: -180px;
+    width: 300px;
+  }
+
+  .left-section::before {
+    right: -180px;
+    width: 300px;
+  }
+}

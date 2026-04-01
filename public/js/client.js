@@ -118,33 +118,47 @@ fetch("/users")
             messages.scrollTop = messages.scrollHeight;
           });
 
-        // ✅ Update UI
-        chatHeader.innerHTML = `<h2>${user.username}</h2>`;
-        document.getElementById("chat-welcome").style.display = "none";
-        form.style.display = "flex";
+          fetch(`/user/${selectedUserId}`)
+            .then(res => res.json())
+            .then(userData => {
 
-        profileBox.innerHTML = `
-          <h3>Chatting with</h3>
-          <p><strong>${user.username}</strong></p>
-          <p>Status: ${user.is_online ? "Online" : "Offline"}</p>
-          <button id="back-to-profile">← Back to My Profile</button>
-        `;
+              document.getElementById("profile-img").src = (userData.profile_image || "/images/default.png") + "?t=" + new Date().getTime();
 
-        document.getElementById("back-to-profile").addEventListener("click", () => {
-          // Show welcome screen, hide chat
-          document.getElementById("chat-welcome").style.display = "block";
-          document.querySelector(".chat-active").classList.remove("show");
-          
-          profileBox.innerHTML = defaultProfileHTML;
-          document.getElementById("chat-welcome").style.display = "block";
-          chatHeader.innerHTML = defaultHeaderHTML;
-          form.style.display = "none";
-          selectedUserId = null;
-          currentChatUserId = null;
-          messages.innerHTML = "";
-        });
+              document.getElementById("profile-name").textContent = userData.username;
+
+              document.getElementById("profile-status").textContent =
+                "Status: " + (userData.is_online ? "Online" : "Offline");
+
+              document.getElementById("profile-email").textContent =
+                "Email: " + (userData.email || "Not available");
+
+              document.getElementById("profile-bio").textContent =
+                "Bio: " + (userData.bio || "No bio");
+
+              // remove old button if exists
+              const oldBtn = document.getElementById("back-to-profile");
+              if (oldBtn) oldBtn.remove();
+ 
+              // ✅ Show back button only for other users
+              if (selectedUserId !== myUserId) {
+                document.getElementById("profile-bio").insertAdjacentHTML(
+                  "afterend",
+                  `<button id="back-to-profile">← Back to My Profile</button>`
+                );
+              }
+              // ✅ Show/hide edit option
+              if (selectedUserId === myUserId) {
+                document.getElementById("edit-profile-btn").style.display = "inline-block";
+              } else {
+                document.getElementById("edit-profile-btn").style.display = "none";
+                document.getElementById("edit-box").style.display = "none";
+              }  
+            });
+
+          // ✅ Update UI
+          chatHeader.innerHTML = `<h2>${user.username}</h2>`;
+          form.style.display = "flex";
       });
-
       userBox.appendChild(userDiv);
     });
   });
@@ -255,3 +269,170 @@ function toggleProfile() {
   const profileBox = document.querySelector('.profile-section');
   profileBox.classList.toggle('show');
 }
+
+// Edit button click
+document.addEventListener("click", (e) => {
+
+  if (e.target.id === "edit-profile-btn") {
+    document.getElementById("edit-box").style.display = "block";
+  }
+
+  if (e.target.id === "delete-profile") {
+
+    if (!confirm("Are you sure?")) return;
+
+    fetch("/delete-profile", {
+      method: "POST"
+    })
+    .then(res => res.json())
+    .then(data => {
+      alert("Profile Reset");
+
+      // reset UI
+      document.getElementById("profile-img").src = "/images/default.png";
+      document.getElementById("profile-bio").textContent = "Bio: No bio";
+
+      document.getElementById("edit-box").style.display = "none";
+    });
+
+  }
+
+  if (e.target.id === "save-profile") {
+    console.log("Save clicked");
+
+    const bio = document.getElementById("edit-bio").value;
+    const imageFile = document.getElementById("edit-image").files[0];
+
+    const formData = new FormData();
+    formData.append("bio", bio);
+    if (imageFile) formData.append("profile", imageFile);
+
+    fetch("/update-profile", {
+      method: "POST",
+      body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      alert("Profile Updated");
+      // 🔥 Fetch updated profile (NO reload)
+      fetch(`/user/${myUserId}`)
+        .then(res => res.json())
+        .then(userData => {
+
+          document.getElementById("profile-img").src =
+            userData.profile_image + "?t=" + new Date().getTime();
+
+          document.getElementById("profile-bio").textContent =
+            "Bio: " + (userData.bio || "No bio");
+ 
+          // hide edit box
+          document.getElementById("edit-box").style.display = "none";
+        });
+    })
+    .catch(err => console.error(err));
+  }
+
+});
+
+// ✅ Back button click (GLOBAL - only once)
+document.addEventListener("click", (e) => {
+  if (e.target.id === "back-to-profile") {
+
+    document.getElementById("chat-welcome").style.display = "block";
+    document.querySelector(".chat-active").classList.remove("show");
+
+    profileBox.innerHTML = defaultProfileHTML;
+
+    // 🔥 reload my profile data
+    fetch(`/user/${myUserId}`)
+      .then(res => res.json())
+      .then(userData => {
+
+        document.getElementById("profile-img").src =
+          (userData.profile_image || "/images/default.png") + "?t=" + new Date().getTime();
+
+        document.getElementById("profile-name").textContent =
+          userData.username;
+
+        document.getElementById("profile-status").textContent =
+          "Status: " + (userData.is_online ? "Online" : "Offline");
+
+        document.getElementById("profile-email").textContent =
+          "Email: " + (userData.email || "Not available");
+
+        document.getElementById("profile-bio").textContent =
+          "Bio: " + (userData.bio || "No bio");
+
+        document.getElementById("edit-profile-btn").style.display = "inline-block";
+      });
+    chatHeader.innerHTML = defaultHeaderHTML;
+    form.style.display = "none";
+
+    selectedUserId = null;
+    currentChatUserId = null;
+    messages.innerHTML = "";
+  }
+});
+
+// 🔥 Load my profile on page load
+window.addEventListener("load", () => {
+
+  fetch(`/user/${myUserId}`)
+    .then(res => res.json())
+    .then(userData => {
+
+      document.getElementById("profile-img").src =
+        userData.profile_image + "?t=" + new Date().getTime();
+
+      document.getElementById("profile-name").textContent =
+        userData.username;
+
+      document.getElementById("profile-status").textContent =
+        "Status: " + (userData.is_online ? "Online" : "Offline");
+
+      document.getElementById("profile-email").textContent =
+        "Email: " + (userData.email || "Not available");
+
+      document.getElementById("profile-bio").textContent =
+        "Bio: " + (userData.bio || "No bio");
+
+      // ✅ 🔥 ADD THIS HERE
+      document.getElementById("edit-profile-btn").style.display = "inline-block";  
+    });
+
+});
+
+// 🤖 Toggle chatbot
+document.addEventListener("DOMContentLoaded", () => {
+
+  // 🤖 Summarize Chat
+  document.getElementById("summarize-btn").addEventListener("click", () => {
+
+    if (!selectedUserId) {
+      document.getElementById("chatbot-output").innerText =
+        "⚠️ Open a chat first";
+      return;
+    }
+
+    fetch(`/summarize-chat/${selectedUserId}`)
+      .then(res => res.json())
+      .then(data => {
+
+        let summary = data.summary;
+
+        document.getElementById("chatbot-output").innerText =
+          "📌 Summary:\n- " + summary.join("\n- ");
+      });
+  });
+  const chatbotBtn = document.getElementById("chatbot-btn");
+  const chatbotBox = document.getElementById("chatbot-box");
+
+  chatbotBtn.addEventListener("click", () => {
+    if (chatbotBox.style.display === "block") {
+      chatbotBox.style.display = "none";
+    } else {
+      chatbotBox.style.display = "block";
+    }
+  });
+});

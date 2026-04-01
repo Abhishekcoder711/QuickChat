@@ -87,43 +87,76 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* 🟣 Form Container */
-.container {
-  position: relative;
-  background: white;
-  padding: 30px;
+/* 🔄 Flip Card System */
+.card-container {
+  perspective: 1000px;
   margin-left: 100px;
+  height: 520px; 
+  width: 350px;
+  
+}
+
+.card {
+  width: 260px;
+  height: 450px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease;
+}
+
+.card.flip {
+  transform: rotateY(180deg);
+}
+
+/* 🔁 Both sides */
+.side {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: white;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  width: 300px;
-  height: 500px;
+  backface-visibility: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  z-index: 2;
+  justify-content: center;
+  align-items: center;  
+  padding: 20px;
+  text-align: center;  
+}
+
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* 🔥 important */
+}
+
+/* 🔙 Back side */
+.back {
+  transform: rotateY(180deg);
 }
 
 .lottie {
-  width: 300px;
-  height: 170px;
-  margin: -20px auto 10px auto;
+  width: 220px;
+  height: 140px;
+  margin: -10px auto 5px auto;
 }
 
 #page-title {
-  font-size: 1.5em;
-  margin: 0 0 10px;
+  font-size: 1.3em;
+  margin: 0 0 8px;
 }
 
 /* 🧾 Form Inputs */
 .text-input {
-  padding: 12px;
+  padding: 8px;
   width: 85%;
-  max-width: 350px;
-  font-size: clamp(12px, 1.5vw, 14px);
+  max-width: 300px;
+  font-size: 12px;
   margin: 0 auto 10px auto;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
   border: 1px solid #ccc;
   outline: none;
   transition: all 0.3s ease;
@@ -140,18 +173,15 @@ body {
 /* ✅ Error Message */
 #error-msg {
   color: red;
-  font-size: 14px;
-  margin-bottom: 10px;
+  font-size: 12px;
+  margin-bottom: 5px;
   height: 18px;
 }
 
-/* ✅ Terms Checkbox */
-.terms-container {
-  text-align: center;
-  margin: 10px auto;
-  width: 90%;
-  max-width: 350px;
-  font-size: 14px;
+/* checkbox size */
+input[type="checkbox"] {
+  margin: 0;
+  transform: scale(1); /* 🔽 reduced size */
 }
 
 input[type="checkbox"] {
@@ -165,22 +195,90 @@ button {
   background-color: #4a90e2;
   color: white;
   border: none;
-  padding: 12px 24px;
-  font-size: 16px;
-  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 14px;
+  border-radius: 6px;
   cursor: pointer;
   margin-top: auto;
 }
 
 .toggle-text {
-  font-size: 14px;
-  margin-top: 15px;
+  font-size: 12px;
+  margin-top: 10px;
 }
 
 .toggle-text a {
   color: #4a90e2;
   cursor: pointer;
   text-decoration: none;
+}
+
+.footer-links {
+  position: fixed;
+  bottom: 15px;
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #333;
+  margin: 0 5px;
+  transition: 0.3s;
+}
+
+.footer-links a:hover {
+  color: #4a90e2;
+  text-decoration: underline;
+}
+
+.social-divider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.social-divider::before,
+.social-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  border-bottom: 1px solid #343030;
+}
+
+.social-divider span {
+  margin: 0 10px;
+  font-size: 13px;
+  color: #777;
+}
+
+.social-login {
+  display: flex;
+  gap: 10px;
+}
+
+.social-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  background: transparent;
+  cursor: pointer;
+  text-align: center;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.social-btn i {
+  font-size: 20px;
+  color: #555;
+}
+
+.social-btn:hover {
+  transform: scale(1.05);
+  background: rgba(0,0,0,0.05);
 }
 
 /* 📱 Responsive Layout */
@@ -193,13 +291,6 @@ button {
   .branding {
     margin-right: 0;
     margin-bottom: 20px;
-  }
-
-  .container {
-    width: 90%;
-    margin-left: 0;
-    padding: 20px;
-    height: auto;
   }
 
   .logo-left {

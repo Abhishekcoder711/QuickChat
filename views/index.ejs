@@ -110,12 +110,28 @@
 
     <!-- 🟢 Right Panel: Profile Info -->
     <div class="profile-section" id="profile-box">
-      <h3>Profile</h3>
-      <img src="/images/logo.png" alt="Profile" style="width:100px; border-radius:50%;">
-      <p><strong>
-          <%= username %>
-        </strong></p>
-      <p>Status: Online</p>
+        <h3>Profile</h3>
+
+        <img id="profile-img" src="/images/default.png" 
+          style="width:100px; height:100px; border-radius:50%; object-fit:cover;">
+
+      <p><strong id="profile-name"><%= username %></strong></p>
+      <p id="profile-status">Status: Online</p>
+
+      <p id="profile-email"></p>
+      <p id="profile-bio"></p>
+
+      <div id="edit-box" style="display:none;">
+        <input type="text" id="edit-bio" placeholder="Enter bio" style="width:80%; padding:5px;">
+  
+        <input type="file" id="edit-image" style="margin-top:10px;">
+
+        <br><br>
+        <button id="save-profile" type="button">Save</button>
+        <button id="delete-profile" type="button">Remove</button>
+      </div>
+
+      <button id="edit-profile-btn">Edit Profile</button>
       <button onclick="window.location='/logout'">Logout</button>
     </div>
 
@@ -152,6 +168,17 @@
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/client.js"></script>
+
+  <!-- 🤖 Chatbot Button -->
+  <div id="chatbot-btn">🤖</div>
+
+    <!-- 🤖 Chatbot Box -->
+    <div id="chatbot-box" style="display:none;">
+      <h4>QuickBot</h4>
+      <button id="summarize-btn">Summarize Chat</button>
+
+    <div id="chatbot-output"></div>
+  </div>
 </body>
 
 </html>

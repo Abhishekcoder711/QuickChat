@@ -1,72 +1,53 @@
-function switchToLogin() {
-    document.getElementById("page-title").textContent = "Login";
-    document.getElementById("form-button").textContent = "Login";
-    document.querySelector("form").setAttribute("action", "/login");
-    document.getElementById("toggle-area").innerHTML = `Don't have an account? <a onclick="switchToCreate()">SignUp</a>`;
-    document.getElementById("username").style.display = "none";
-    document.getElementById("username").required = false;
-    document.querySelector('input[name="terms"]').required = false;
-    document.querySelector('.terms-container').style.display = "none";
-    clearError();
+function flip() {
+    document.getElementById("card").classList.toggle("flip");
 }
 
-function switchToCreate() {
-    document.getElementById("page-title").textContent = "Create Your Account";
-    document.getElementById("form-button").textContent = "Create";
-    document.querySelector("form").setAttribute("action", "/create");
-    document.getElementById("toggle-area").innerHTML = `Already have an account? <a onclick="switchToLogin()">Login</a>`;
-    document.getElementById("username").style.display = "block";
-    document.getElementById("username").required = true;
-    document.querySelector('input[name="terms"]').required = true;
-    document.querySelector('.terms-container').style.display = "block";
-    clearError();
-}
+function validateForm(e) {
+    const form = e.target;
+    const action = form.getAttribute("action");
 
-function validateForm() {
-    clearError();
-    const formAction = document.querySelector("form").getAttribute("action");
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    const email = form.querySelector('input[name="email"]').value.trim();
+    const password = form.querySelector('input[name="password"]').value.trim();
+
+    clearError(form);
 
     if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
-        showError("⚠️ Please enter a valid email address.");
+        showError("⚠️ Enter valid email", form);
         return false;
     }
 
     if (!password) {
-        showError("⚠️ Password is required.");
+        showError("⚠️ Password required", form);
         return false;
     }
 
-    if (formAction === "/create") {
-        const username = document.getElementById("username").value;
+    if (action === "/create") {
+        const username = form.querySelector('input[name="username"]').value.trim();
+
         if (!username) {
-            showError("⚠️ Username is required.");
+            showError("⚠️ Enter name", form);
             return false;
         }
+
         if (password.length < 6) {
-            showError("⚠️ Password must be at least 6 characters long.");
-            return false;
-        }
-        const terms = document.querySelector('input[name="terms"]');
-        if (!terms.checked) {
-            showError("⚠️ You must agree to the terms and conditions.");
+            showError("⚠️ Min 6 chars password", form);
             return false;
         }
     }
+
     return true;
 }
 
-function showError(message) {
-    const errorElement = document.getElementById("error-msg");
-    errorElement.textContent = message;
-    errorElement.style.display = "block";
+function showError(msg, form) {
+    const error = form.querySelector(".error-msg");
+    error.textContent = msg;
+    error.style.display = "block";
 }
 
-function clearError() {
-    const errorElement = document.getElementById("error-msg");
-    errorElement.textContent = "";
-    errorElement.style.display = "none";
+function clearError(form) {
+    const error = form.querySelector(".error-msg");
+    error.textContent = "";
+    error.style.display = "none";
 }
 
 // Handle URL parameters for errors and page switching
@@ -74,10 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const urlParams = new URLSearchParams(window.location.search);
     const error = urlParams.get("error");
     const page = urlParams.get("page");
-
-    if (page === "login") {
-        switchToLogin();
-    }
 
     if (error) {
         let message = "";
@@ -103,3 +80,83 @@ document.addEventListener("DOMContentLoaded", () => {
         showError(message);
     }
 });
+
+
+// ================= FACEBOOK LOGIN =================
+
+// FACEBOOK LOGIN
+function loginWithFacebook() {
+    FB.login(function(response) {
+        if (response.authResponse) {
+            FB.api('/me', { fields: 'name,email' }, function(user) {
+                console.log("Facebook User:", user);
+
+                fetch("/auth/facebook", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email: user.email,
+                        name: user.name
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    window.location.href = "/chat";
+                });
+            });
+        }
+    }, { scope: 'email' });
+}
+
+// ================= GOOGLE LOGIN =================
+
+// Initialize ONLY ONCE (IMPORTANT)
+window.onload = function () {
+    google.accounts.id.initialize({
+        client_id: "215720195583-mdhlhcp1nlskktf6i564mim7neleg2u1.apps.googleusercontent.com",
+        callback: handleGoogleLogin
+    });
+};
+
+// Button click → trigger popup
+function triggerGoogleLogin() {
+    console.log("CLICKED");
+
+    google.accounts.id.prompt((notification) => {
+        console.log("Prompt:", notification);
+    });
+}
+
+// Handle Google response
+function handleGoogleLogin(response) {
+    console.log("Google Response:", response);
+
+    fetch("/auth/google", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            credential: response.credential
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        window.location.href = "/chat";
+    })
+    .catch(err => console.log(err));
+}
+
+// ================= LOGOUT (IMPORTANT) =================
+
+// Jab logout kare tab call karna
+function logout() {
+    // Google logout reset
+    if (window.google) {
+        google.accounts.id.disableAutoSelect();
+    }
+
+    window.location.href = "/create";
+}

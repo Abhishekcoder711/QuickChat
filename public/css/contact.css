@@ -1,0 +1,77 @@
+/* 🔮 Background same as about */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  height: 100vh;
+  background: radial-gradient(circle at 20% 20%, #a18cd1, #fbc2eb);
+}
+
+/* 📦 Container */
+.contact-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  gap: 40px;
+  padding: 20px;
+}
+
+/* 🟪 Glass Card Style (same as about) */
+.contact-form,
+.contact-info {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  width: 300px;
+  animation: fadeIn 1s ease;
+}
+
+/* 📝 Form */
+.contact-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-form input,
+.contact-form textarea {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* 🔘 Button */
+.contact-form button {
+  background: #4a90e2;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* 🎯 Heading */
+.contact-form h2,
+.contact-info h2 {
+  text-align: center;
+  margin-bottom: 15px;
+  background: linear-gradient(45deg, #110a55, #a126ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ✨ Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
