@@ -6,10 +6,10 @@ const session = require("express-session");
 const path = require("path");
 const bcrypt = require("bcrypt");
 const fs = require("fs");
-const axios = require("axios");
+const { OAuth2Client } = require("google-auth-library");
+
+const client = new OAuth2Client("215720195583-mdhlhcp1nlskktf6i564mim7neleg2u1.apps.googleusercontent.com");
 require("dotenv").config();
-
-
 
 
 // Multer for file uploads 
@@ -174,59 +174,44 @@ app.post("/login", async (req, res) => {
 });
 
 // GOOGLE LOGIN
-app.get("/auth/google", (req, res) => {
-  const redirect_uri = "https://quickchat-t1wq.onrender.com/auth/google/callback";
 
-  const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=YOUR_CLIENT_ID&redirect_uri=${redirect_uri}&response_type=code&scope=profile email`;
+app.post("/google-login", async (req, res) => {
+    try {
+        const { token } = req.body;
 
-  res.redirect(url);
-});
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: "215720195583-mdhlhcp1nlskktf6i564mim7neleg2u1.apps.googleusercontent.com"
+        });
 
-app.get("/auth/google/callback", async (req, res) => {
-  try {
-    const code = req.query.code;
+        const payload = ticket.getPayload();
+        const { email, name } = payload;
 
-    const tokenRes = await axios.post("https://oauth2.googleapis.com/token", {
-      code,
-      client_id: "YOUR_CLIENT_ID",
-      client_secret: "YOUR_CLIENT_SECRET",
-      redirect_uri: "https://quickchat-t1wq.onrender.com/auth/google/callback",
-      grant_type: "authorization_code"
-    });
+        let user = await User.findOne({ email });
 
-    const { access_token } = tokenRes.data;
+        if (!user) {
+            user = await User.create({
+                username: name,
+                email,
+                password: "google_auth",
+                is_online: true,
+                profile_image: "/images/default.png",
+                bio: ""
+            });
+        } else {
+            user.is_online = true;
+            await user.save();
+        }
 
-    const userRes = await axios.get("https://www.googleapis.com/oauth2/v2/userinfo", {
-      headers: { Authorization: `Bearer ${access_token}` }
-    });
+        req.session.userId = user._id;
+        req.session.username = user.username;
 
-    const { email, name } = userRes.data;
+        res.json({ success: true });
 
-    let user = await User.findOne({ email });
-
-    if (!user) {
-      user = await User.create({
-        username: name,
-        email,
-        password: "google_auth",
-        is_online: true,
-        profile_image: "/images/default.png",
-        bio: ""
-      });
-    } else {
-      user.is_online = true;
-      await user.save();
+    } catch (err) {
+        console.log(err);
+        res.json({ success: false });
     }
-
-    req.session.userId = user._id;
-    req.session.username = user.username;
-
-    res.redirect("/chat");
-
-  } catch (err) {
-    console.log(err);
-    res.redirect("/create");
-  }
 });
 
 // FACEBOOK LOGIN

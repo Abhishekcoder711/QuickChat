@@ -77,6 +77,8 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
     </script>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 
 <body>
@@ -144,7 +146,7 @@
 
                     <div class="social-login">
 
-                        <button class="social-btn" onclick="window.location.href='/auth/google'">
+                        <button class="social-btn" onclick="loginWithGoogle()">
                             <i class="fab fa-google"></i>
                         </button>
                         
@@ -175,4 +177,5 @@
     </div>
 
     <script src="/js/create.js"></script>
+    <script src="/js/client.js"></script>
 </body>

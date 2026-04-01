@@ -110,4 +110,3 @@ function loginWithFacebook() {
     }, { scope: 'email' });
 }
 
-// ================= GOOGLE LOGIN =================

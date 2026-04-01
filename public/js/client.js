@@ -436,3 +436,41 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+// ================= GOOGLE LOGIN =================
+
+function loginWithGoogle() {
+
+    google.accounts.id.initialize({
+        client_id: "215720195583-mdhlhcp1nlskktf6i564mim7neleg2u1.apps.googleusercontent.com",
+        callback: handleCredentialResponse,
+        auto_select: false
+    });
+
+    // ✅ ONLY button click pe popup aayega
+    google.accounts.id.prompt();
+}
+
+function handleCredentialResponse(response) {
+    const id_token = response.credential;
+
+    fetch("/google-login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ token: id_token })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = "/chat";
+        } else {
+            alert("Google login failed");
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        alert("Error in Google login");
+    });
+}
