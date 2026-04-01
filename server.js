@@ -6,7 +6,7 @@ const session = require("express-session");
 const path = require("path");
 const bcrypt = require("bcrypt");
 const fs = require("fs");
-const jwt = require("jsonwebtoken");
+const axios = require("axios");
 require("dotenv").config();
 
 
@@ -174,21 +174,39 @@ app.post("/login", async (req, res) => {
 });
 
 // GOOGLE LOGIN
-app.post("/auth/google", async (req, res) => {
+app.get("/auth/google", (req, res) => {
+  const redirect_uri = "https://quickchat-t1wq.onrender.com/auth/google/callback";
+
+  const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=YOUR_CLIENT_ID&redirect_uri=${redirect_uri}&response_type=code&scope=profile email`;
+
+  res.redirect(url);
+});
+
+app.get("/auth/google/callback", async (req, res) => {
   try {
-    const { credential } = req.body;
+    const code = req.query.code;
 
-    // ✅ Decode Google token
-    const decoded = jwt.decode(credential);
+    const tokenRes = await axios.post("https://oauth2.googleapis.com/token", {
+      code,
+      client_id: "YOUR_CLIENT_ID",
+      client_secret: "YOUR_CLIENT_SECRET",
+      redirect_uri: "https://quickchat-t1wq.onrender.com/auth/google/callback",
+      grant_type: "authorization_code"
+    });
 
-    const email = decoded.email;
-    const username = decoded.name;
+    const { access_token } = tokenRes.data;
+
+    const userRes = await axios.get("https://www.googleapis.com/oauth2/v2/userinfo", {
+      headers: { Authorization: `Bearer ${access_token}` }
+    });
+
+    const { email, name } = userRes.data;
 
     let user = await User.findOne({ email });
 
     if (!user) {
       user = await User.create({
-        username,
+        username: name,
         email,
         password: "google_auth",
         is_online: true,
@@ -203,11 +221,11 @@ app.post("/auth/google", async (req, res) => {
     req.session.userId = user._id;
     req.session.username = user.username;
 
-    res.json({ success: true });
+    res.redirect("/chat");
 
   } catch (err) {
     console.log(err);
-    res.status(500).json({ error: "Google login failed" });
+    res.redirect("/create");
   }
 });
 
